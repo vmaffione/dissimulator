@@ -106,7 +106,7 @@ int Console::help( const string& param )
       
 int Console::quit( const string& param )
   {
-    cout << "Thanks for use!\nBye bye\n";
+    cout << "Thanks for using me!\nBye\n";
     return 0;
   }
       

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "syntax.h"
 
 extern ostringstream oss;
