@@ -1,0 +1,10 @@
+source0 = ramp(1.0, 2);
+sink0 = simple_scope(outfile);
+sb = ID();
+sb2 = ID();
+somma = sum( +, + );
+connect( sb.output[0], somma.input[0] );
+connect( sb2.output[0], somma.input[1] );
+connect(source0.output, sb.input[0]);
+connect(source0.output, sb2.input[0]);
+connect(somma.output, sink0.input);

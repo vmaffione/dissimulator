@@ -1,0 +1,11 @@
+source0 = ramp(1.0, 2);
+sink0 = simple_scope(outfile);
+sink1 = simple_scope(outfile2);
+
+d = myderivator();
+int = integrator();
+connect(source0.output, d.input[0]);
+connect(source0.output, d.input[1]);
+connect(d.output[0], sink0.input);
+connect(source0.output,int.input);
+connect(int.output, sink1.input);

@@ -1,0 +1,8 @@
+sr = ramp(1,0.0);
+t = twins();
+s = sum(+,+);
+sk = simple_scope(outfile);
+connect( sr.output,t.input );
+connect(t.output[0], s.input[0]);
+connect(t.output[1], s.input[1]);
+connect(s.output,sk.input);

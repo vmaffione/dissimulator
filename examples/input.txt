@@ -1,0 +1,19 @@
+sr1 = ramp(1,1);
+sr2 = ramp(2,0);
+
+int1 = integrator();
+int2 = integrator();
+sum1 = sum(-,+);
+
+sb = super();
+
+connect( sum1.output, sb.input[0] );
+connect( sum1.output, sb.input[1] );
+sk = simple_scope(outfile);
+
+connect( sr1.output, int1.input);
+connect( sr2.output, int2.input);
+connect( int1.output, sum1.input[0]);
+connect( int2.output, sum1.input[1]);
+
+connect(sb.output[0], sk.input);

@@ -1,0 +1,6 @@
+b = myb();
+b1 = myb();
+sm = simple_scope(outfile2);
+sm1 = simple_scope(outfile3);
+connect(b.output[0],sm.input);
+connect(b1.output[0],sm1.input);

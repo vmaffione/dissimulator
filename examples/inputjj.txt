@@ -1,0 +1,7 @@
+s = ramp( 1.0, 3 );
+i = special();
+i2 = special();
+o = simple_scope( outfile );
+connect( s.output, i.input[0] );
+connect( i.output[0], i2.input[0] );
+connect( i2.output[0], o.input );

@@ -1,0 +1,10 @@
+sr = ramp(1,0);
+nn = nine();
+nn2 = nine();
+connect( sr.output, nn.input[0] );
+connect( sr.output, nn2.input[0] );
+summer = sum(+,+);
+sk = simple_scope( outfile );
+connect( nn.output[0], summer.input[0] );
+connect( nn2.output[0], summer.input[1] );
+connect( summer.output, sk.input );

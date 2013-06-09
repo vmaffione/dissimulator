@@ -1,0 +1,3 @@
+s = special_source();
+o = simple_scope(outfile);
+connect( s.output[0], o.input );

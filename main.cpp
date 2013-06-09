@@ -4,16 +4,24 @@
 #include "engine.h"
 #include "console.h"
 
+
 ostringstream oss;
 
-int main()
+
+int main(int argc, char **argv)
 {
     list<Token*> TokenList;
+
+    if (argc != 2) {
+	cout << "Usage: dissimulator INPUTFILE\n";
+	return -1;
+    }
+
     try
     {
 	Lexer* LexAnalyzer = Lexer::getInstance(); // acquisice il puntatore all'unica istanza di Lexer
 	Token* nextToken;
-	LexAnalyzer->setInputFile("input.txt");
+	LexAnalyzer->setInputFile(argv[1]);
 	while (nextToken = LexAnalyzer->getToken())
 	    TokenList.push_back(nextToken);
 	if (DEBUG) { TKPTVCIT it = TokenList.begin(); cout << "\nLista dei Token:\n"; for (; it != TokenList.end(); it++) { cout << (*it)->getName(); if ((*it)->getName() == ";") cout << "\n"; } cout << "\n"; }
