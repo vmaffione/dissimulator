@@ -7,12 +7,12 @@
    in scrittura, in quanto chi scrive un nuovo blocco può al massimo avere bisogno di guardarlo in sola
    lettura. */
 class Time
-  {
-      static int K; // conta gli istanti della simulazione
-      friend class Console; // permette l'accesso completo alla funzione "start" di Console
-      Time();
+{
+    static int K; // conta gli istanti della simulazione
+    friend class Console; // permette l'accesso completo alla funzione "start" di Console
+    Time();
     public:
-      static unsigned int getTime() { return K; }
-  };
+    static unsigned int getTime() { return K; }
+};
 
 #endif

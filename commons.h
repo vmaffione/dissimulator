@@ -1,6 +1,6 @@
 /* commons.h
    Contiene direttive e costanti comuni a tutti i moduli
-*/
+   */
 
 #ifndef COMMONS__H__
 #define COMMONS__H__
