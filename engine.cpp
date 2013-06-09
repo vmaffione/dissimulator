@@ -13,7 +13,7 @@ void SortEngine::reassignId()
 
 /* riordina il vettore passato per parametro che contiene tutti i blocchi del
    sistema in modo da stabilire un ordine di aggiornamento delle uscite dei
-   vari blocchi congruente con l'applicazione; l'algoritmo implementato ha 
+   vari blocchi congruente con l'applicazione; l'algoritmo implementato ha
    complessità O(E*logN), dove N è il numero di blocchi del sistema ed E il
    numero di collegamenti del sistema, nell'ipotesi che sia N = O(E) */
 bool SortEngine::sortBlocks()
@@ -81,7 +81,7 @@ bool SortEngine::sortBlocks()
 	//Block* child;
 	int child_ID, child_lev;
 
-	if (DEBUG) { cout<<"VETTORE DI LISTE:\n"; for (i=0; i<=maxLevel; i++) { levelsList[i].print(); } cout << "\n"; cout << "Selezionato: " << pfb->getName() << ", numlinks = " << pfb->outputNumLinks() << "\n"; }  
+	if (DEBUG) { cout<<"VETTORE DI LISTE:\n"; for (i=0; i<=maxLevel; i++) { levelsList[i].print(); } cout << "\n"; cout << "Selezionato: " << pfb->getName() << ", numlinks = " << pfb->outputNumLinks() << "\n"; }
 
 	// aggiorna il numero di blocchi rimasti a tutit i suoi figli, ed effettua lo spostamento nella lista
 	childs = pfb->getOutputPointers();
@@ -89,7 +89,7 @@ bool SortEngine::sortBlocks()
 	{
 	    ItAndInt& track_ref = blockTracks[ childs[i]->getID() ];
 	    if (track_ref.level)
-	    { 
+	    {
 		levelsList[ track_ref.level-- ].erase(track_ref.pt);
 		track_ref.pt = levelsList[ track_ref.level ].push_back(childs[i]);
 	    }
@@ -99,7 +99,7 @@ bool SortEngine::sortBlocks()
 	levelsList[0].pop_front();
 	Block::blockList[ blockCounter++ ] = pfb;
     }
-    return true; 
+    return true;
 }
 
 bool SortEngine::arrangeBlocks()

@@ -15,7 +15,7 @@ enum ErrorType { LEX = 0, SYX, BLOCK, ENGINE, CONSOLE };
 class GenericError
 {
     public:
-	virtual ErrorType getType() const = 0; 
+	virtual ErrorType getType() const = 0;
 };
 
 class LexError: public GenericError

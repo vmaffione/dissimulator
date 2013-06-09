@@ -7,16 +7,16 @@
 ostringstream oss;
 
 int main()
-{  
+{
     list<Token*> TokenList;
     try
     {
-	Lexer* LexAnalyzer = Lexer::getInstance(); // acquisice il puntatore all'unica istanza di Lexer   
+	Lexer* LexAnalyzer = Lexer::getInstance(); // acquisice il puntatore all'unica istanza di Lexer
 	Token* nextToken;
 	LexAnalyzer->setInputFile("input.txt");
 	while (nextToken = LexAnalyzer->getToken())
 	    TokenList.push_back(nextToken);
-	if (DEBUG) { TKPTVCIT it = TokenList.begin(); cout << "\nLista dei Token:\n"; for (; it != TokenList.end(); it++) { cout << (*it)->getName(); if ((*it)->getName() == ";") cout << "\n"; } cout << "\n"; }    
+	if (DEBUG) { TKPTVCIT it = TokenList.begin(); cout << "\nLista dei Token:\n"; for (; it != TokenList.end(); it++) { cout << (*it)->getName(); if ((*it)->getName() == ";") cout << "\n"; } cout << "\n"; }
 
 	Syntax::init();
 
@@ -36,7 +36,7 @@ int main()
 	if (DEBUG) symbolTablePointer->printAll();
 
 	// travaso i blocchi dalla tabella dei simboli nel vettore Block::blockList
-	Syntax::getBlocks();      
+	Syntax::getBlocks();
 	if (DEBUG) { cout << "Lista dei blocchi da ordinare:\n"; for (int j = 0; j<Block::blockList.size(); j++) cout << "id= " << Block::blockList[j]->getID() << " " << Block::blockList[j]->getName() << "  " << Block::blockList[j]->getType() << "\n"; cout << "\n"; }
 
 	SortEngine* sortEnginePointer = SortEngine::getInstance();
@@ -51,7 +51,7 @@ int main()
 	// viene liberata la memoria relativa ai blocchi
 	Block::freeTable();
     }
-    catch (const GenericError& e) 
+    catch (const GenericError& e)
     {
 	if (e.getType() == LEX)
 	{

@@ -21,7 +21,7 @@ class Block;
    è stata dunque introdotta per disaccoppiare, dal punto di vista della compilazione, i moduli "syntax" e "block",
    limitando quindi le modifiche necessarie per la definizione di un nuovo tipo di blocco al solo modulo "block"; */
 class BlockBuilder
-{   
+{
     friend class Block;
     friend class SuperBlock;
     static int id_counter;
@@ -37,7 +37,7 @@ class BlockBuilder
 
 // classe base virtuale
 class Block
-{   
+{
     friend class SuperBlock;
     virtual bool addOutput( Block* dest, int dest_input_index, int output_index, int instructionCounter ) = 0; // !!! l'ultimo argomento è diventato obsoleto !!! ???
     virtual bool addInput( Block* src, int input_index, int src_output_index, int instructionCounter ) = 0;
@@ -87,7 +87,7 @@ class Block
 
 // implementa l'astrazione di superblocco
 class SuperBlock: public Block
-{   
+{
     public:
 	struct RedirectElement
 	{
@@ -97,13 +97,13 @@ class SuperBlock: public Block
 	    bool operator<( const RedirectElement& r ) const { return ( blockPointer < r.blockPointer ); }
 	};
 	/* questa struttura è la riga di una tabella che serve a creare le corrispondenze tra ingressi (o uscite)
-	   di un superblocco e ingressi (o uscite) dei blocchi che costituiscono il modello di tale superblocco  */  
+	   di un superblocco e ingressi (o uscite) dei blocchi che costituiscono il modello di tale superblocco  */
 	struct SuperBlockMatchingRow
 	{
 	    int sbIndex;  // indice relativo all'ingresso o all'uscita del superblocco
 	    int sbBlockId;  // Id del blocco facente parte il modello di superblocco
 	    int sbBlockIndex; // indice relativo all'ingresso o all'uscita del blocco costituente il modello di superblocco
-	};   
+	};
 	struct SuperBlockElement
 	{
 	    public:
@@ -133,14 +133,14 @@ class SuperBlock: public Block
 	friend bool create_connection( Block* input, int input_index, Block* output, int output_index, int instructionCounter );
 	virtual bool addOutput( Block* dest, int dest_input_index, int output_index, int instructionCounter ) { }
 	virtual bool addInput( Block* src, int input_index, int src_output_index, int instructionCounter ) { }
-	SuperBlock( const SuperBlock& model ): Block( model ) { }  
+	SuperBlock( const SuperBlock& model ): Block( model ) { }
     protected:
 	virtual void initOutputDimension( int outDim ) { };
 	virtual void initInputDimension( int outDim ) { };
 	virtual bool outCheckAndClear() { }
 	virtual bool inCheckAndClear() { }
 	virtual void real_print() const { cout << "Superblock type " << this->getType() << "\n"; }
-    public:  
+    public:
 	SuperBlock( int sbid, string nm, string superBlockName, const vector<RedirectElement>& irt, const vector<RedirectElement>& ort ): Block( BlockBuilder::id_counter++, sbid, nm, superBlockName ), inputRedirectTable( irt ), outputRedirectTable( ort ) { }
 	virtual int outputDimension() const { }
 	virtual int outputNumLinks() const { }
@@ -189,7 +189,7 @@ class SingleOutput: virtual public Block
     vector<Block*> out;
     virtual bool addOutput( Block* dest, int dest_input_index, int output_index, int instructionCounter );
     protected:
-    double yReg; // è il registro che conserva il l'uscita attuale   
+    double yReg; // è il registro che conserva il l'uscita attuale
     virtual void initOutputDimension( int outDim );
     virtual bool outCheckAndClear();
     public:
@@ -256,7 +256,7 @@ class SingleInput: virtual public Block
     SingleInput() {}
     SingleInput( const SingleInput& model ) { in = null; }
     virtual int inputDimension() const { return 1; }
-    virtual Block* getInputPointer( int index, int& src_index ) const;      
+    virtual Block* getInputPointer( int index, int& src_index ) const;
     virtual double getInputValue( int index ) const;
     virtual IOType getInputType() const { return SINGLE; }
 };
@@ -266,7 +266,7 @@ class MultiInput: virtual public Block
     vector<Block*> in;
     /* alla posizione 'i' memorizza l'indice dell'uscita relativa al blocco *(in[i]) a cui è collegato l'i-esimo ingresso;
        necessario per effettuare la getInputValue, ed in fase di replica del superblocco */
-    vector<int> src_out; 
+    vector<int> src_out;
     vector<bool> used;  // probabilmente non serve: controllare!
     virtual bool addInput( Block* src, int src_output_index, int input_index, int instructionCounter );
     protected:

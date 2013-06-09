@@ -11,7 +11,7 @@
 #include "error.h"
 
 /* la classe Token rappresenta un elemento grammaticale: la gerarchia non è pensata
-   per essere espansa in futuro */      
+   per essere espansa in futuro */
 class Token
 {
     public:

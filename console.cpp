@@ -65,7 +65,7 @@ int Console::start(const string& param)
 	}
     }
     bool debugMode = (par3 == "-d" || par3 == "-D");
-    int i;    
+    int i;
     // esegue le inizializzazioni per tutti i blocchi
     for (i=0; i<Block::blockList.size(); i++)
 	Block::blockList[i]->initOperation();
@@ -92,7 +92,7 @@ int Console::start(const string& param)
     // esegue le operazioni di chiusura (in particolare chiude gli stream relativi ad i blocchi pozzo)
     for (i=0; i<Block::blockList.size(); i++)
 	Block::blockList[i]->endOperation();
-    cout << "Simulation completed!\n";  
+    cout << "Simulation completed!\n";
     return 1;
 }
 
@@ -164,7 +164,7 @@ int Console::readAndExecuteNext()
     if (i == funcPointers.size())
     {
 	cout << "  command '" << cmd << "' does not exist.\n";
-	cout << "    HINT: type 'help' to get the command list\n";  
-	return 2; 
+	cout << "    HINT: type 'help' to get the command list\n";
+	return 2;
     }
 }

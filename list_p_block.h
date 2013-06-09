@@ -10,7 +10,7 @@ class Node
 	Block* blockPointer; // dato
 	Node* next;
 	Node* prev;
-	friend class listPBlock; 
+	friend class listPBlock;
     public:
 	Block* operator*() { return blockPointer; } // attualmente non usata da nessuno
 };

@@ -45,7 +45,7 @@ struct ConnectionInfo
 };
 
 class Syntax
-{   
+{
     // puntatore alla lista di token da processare
     list<Token*>* tokenListPointer;
     // puntatore al token attualmente processato
@@ -55,7 +55,7 @@ class Syntax
     /* per distinguere l'istanza relativa al file principale (istanza globale
        di Syntax dalle istanze chiamate a processare i file descrittori di
        superblocco  */
-    bool superBlockInstance; 
+    bool superBlockInstance;
     /* viene mantenuto un contatore che serve ad associare ad ogni blocco del modello di superblocco
        un identificatore numerico da utilizzare nel matching */
     int superBlockIdCounter;

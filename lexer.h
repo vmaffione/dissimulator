@@ -7,7 +7,7 @@
    di personalizzare la grammatica dell'input, anche in modo limitato: in
    particolare devono esistere solo quattro tipi di token, cioè identificatori, keywords,
    nomi di blocchi standard della libreria e caratteri separatori
-   (che corrispondono a elementi grammaticali a sè stanti). Non è possibile aggiungere altre 
+   (che corrispondono a elementi grammaticali a sè stanti). Non è possibile aggiungere altre
 categorie: questo aspetto del sistema è molto rigido.
 L'idea è invece che deve essere il più facile possibile aggiungere nuovi blocchi
 alla libreria standard.
@@ -19,7 +19,7 @@ semplice l'inserimento di una nuova keyword.
 Il file 'standard_blocks.conf' è costituito da un insieme di righe; ogni riga
 è composta di quattro parole:
 - la prima parola indica il nome del blocco standard;
-- la seconda parola indica la tipologia di blocco che può essere 
+- la seconda parola indica la tipologia di blocco che può essere
 STATEFUL (blocco con stato interno)
 STATELESS (blocco senza stato interno)
 SOURCE (blocco sorgente di segnale)

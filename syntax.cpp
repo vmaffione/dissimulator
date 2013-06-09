@@ -42,7 +42,7 @@ void Syntax::init()
 	if (macro_type == "STATEFUL")
 	    info.mType = STATEFUL;
 	else if (macro_type == "STATELESS")
-	    info.mType = STATELESS;      
+	    info.mType = STATELESS;
 	else if (macro_type != "-")
 	{
 	    oss << "In 'standard_blocks.txt' : unrecogized macro-type '" << macro_type << "' at line " << line_counter << "\n";
@@ -57,7 +57,7 @@ void Syntax::init()
 		found = true;
 	if (!found)
 	{
-	    oss << "In 'standard_blocks.txt' : you must use one of the following classes:\n"; 
+	    oss << "In 'standard_blocks.txt' : you must use one of the following classes:\n";
 	    oss << "{ NISO, NIMO, SINO, SISO, SIMO, MINO, MISO, MIMO } instead of '" << mimo << "' at line " << line_counter;
 	    throw SyxError(oss.str());
 	}
@@ -76,7 +76,7 @@ void Syntax::init()
 	}
 	blockLibrary.insert(make_pair(name, info));
 	if (libFile.eof())
-	    break;   
+	    break;
     }
     libFile.close();
 
@@ -112,7 +112,7 @@ Syntax::Syntax(list<Token*>* tklst, string fn, bool sbi) : pointer(null), curren
 
 /* Legge una intera istruzione dalla lista e configura i parametri passati
    in modo che puntino rispettivamente al primo token della prossima
-   istruzione ed al token contenente il ";" che indica la fine dell'struzione. 
+   istruzione ed al token contenente il ";" che indica la fine dell'struzione.
    */
 bool Syntax::getInstruction(TKPTVCIT& begin, TKPTVCIT& end)
 {
@@ -141,7 +141,7 @@ bool Syntax::getInstruction(TKPTVCIT& begin, TKPTVCIT& end)
    l'iteratore 'scanner' punta al primo token dell'istruzione, mentre l'iteratore
    'end' punta al token contenente il ';' che termina l'istruzione;  */
 ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
-{             
+{
     if (scanner == end)
 	return null;
     TKPTVCIT pBegin;
@@ -166,7 +166,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	}
 	scanner++;
 
-	/* se trova un altro identificatore dopo il token "=" allora lo 
+	/* se trova un altro identificatore dopo il token "=" allora lo
 	   interpreta come nome di superblocco */
 	if (scanner != end && (*scanner)->isIdentifier())
 	{
@@ -194,21 +194,21 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 			connInfo = SyxAnalyzer.interpret(b, e);
 			if (connInfo) // se c'è un risultato
 			    if (connInfo->internal)  // se le informazioni di connessione sono relative a connessioni interne
-			    {                              
+			    {
 				SuperBlock::SuperBlockElement::InternalConnectionElement ice = { connInfo->data.internalIO.srcPointer->getSuperBlockID(), connInfo->data.internalIO.srcIndex, connInfo->data.internalIO.destPointer->getSuperBlockID(), connInfo->data.internalIO.destIndex };
 				sbep->internalConnectionsTable.push_back(ice);
 				delete connInfo;
 			    }
 			    else  // se le connessioni di informazioni riguardano la creazione di un blocco oppure le connessioni esterne
 				if (connInfo->data.externalIO.bInd == -1)// solo il campo blockPointer è significativo
-				{                           
+				{
 				    sbep->superBlockBlocks.push_back(connInfo->data.externalIO.blockPointer);
 				    delete connInfo;
 				}
 				else // se l'esecuzione della connect riporta informazioni di ingresso/uscita relative al superblocco..
 				{
 				    SuperBlock::SuperBlockMatchingRow sbmr = { connInfo->data.externalIO.sbInd, connInfo->data.externalIO.blockPointer->getSuperBlockID(), connInfo->data.externalIO.bInd };
-				    if (connInfo->data.externalIO.in) 
+				    if (connInfo->data.externalIO.in)
 					sbep->inputSuperBlockMatchingTable.push_back(sbmr);
 				    else
 					sbep->outputSuperBlockMatchingTable.push_back(sbmr);
@@ -225,13 +225,13 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 			delete (*i);
 
 		}
-		catch (const GenericError&) 
+		catch (const GenericError&)
 		{
 		    for (list<Token*>::iterator j = TokenList.begin(); j != TokenList.end(); j++)
 			delete (*j);
 		    TokenList.clear();
 		    throw;
-		}    
+		}
 
 	    }
 
@@ -241,7 +241,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	    /* a questo punto bisogna creare delle copie di tutti i blocchi che costituiscono
 	       il modello di superblocco; per fare ciò viene chiamata la funzione virtuale "clone()"
 	       che si occupa in sostanza di creare un nuovo oggetto dello stesso tipo chiamando
-	       il costruttore di copia giusto; il corpo del costruttore di copia deve 
+	       il costruttore di copia giusto; il corpo del costruttore di copia deve
 	       (se necessario) effettuare le operazioni di allocazione della memoria privata
 	       del blocco (cioè quella eventualmente allocata al terzo livello della gerarchia
 	       da chi ha progettato il tipo di blocco in questione) e richiamare
@@ -252,14 +252,14 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	       ma lasciando i puntatori in uno stato non significativo, perchè verranno
 	       poi impostati successivamente da una "create_connection" */
 
-	    Block** match = new Block*[ sz ];   
+	    Block** match = new Block*[ sz ];
 	    /* sfruttando il fatto che i blocchi modello di superblocco vengono creati con superblock ID
 	       crescente (partendo da 0), si crea un array "match" che, per come viene inizializzato, permetterà
 	       successivamente di reperire il blocco clone corrispondente ad un determinato blocco modello
 	       a partire dal superblock ID di quest'ultimo
 	       */
 	    for (; j<sz; j++)
-		match[ j ] = sbep->superBlockBlocks[j]->clone(superBlockInstance);                             
+		match[ j ] = sbep->superBlockBlocks[j]->clone(superBlockInstance);
 
 	    if (DEBUG) for (j=0; j<sz; j++) { cout << "match["<< j << "] = " << match[j]->getID() << "\n"; }
 
@@ -283,7 +283,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 		inputRedirectTable[j].blockPointer = match[ sbep->inputSuperBlockMatchingTable[j].sbBlockId ];
 		inputRedirectTable[j].sbBlockIndex = sbep->inputSuperBlockMatchingTable[j].sbBlockIndex;
 	    }
-	    /* per esigenze della funzione SuperBlock::getInputPointers l'array inputRedirectTable deve essere ordinata per indirizzo di blocco */                    
+	    /* per esigenze della funzione SuperBlock::getInputPointers l'array inputRedirectTable deve essere ordinata per indirizzo di blocco */
 	    sort(inputRedirectTable.begin(), inputRedirectTable.end());
 
 	    for (j=0; j<orsz; j++)
@@ -295,7 +295,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	    /* se l'istanza corrente di Syntax è quella che analizza il file principale, allora
 	       si devono travasare tutti i blocchi clonati (ma non i superblocchi clonati) nella
 	       lista globale dei blocchi; se invece stiamo analizzando un file di definizione di
-	       superblocco, travasiamo i blocchi clonati in un'altra lista, in modo da poter 
+	       superblocco, travasiamo i blocchi clonati in un'altra lista, in modo da poter
 	       liberare la memoria al momento giusto */
 	    for (j=0; j<sz; j++)
 		if (!superBlockInstance && match[j]->getRoleType() != SUPERBLOCK)
@@ -304,7 +304,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 		    SuperBlock::insertModel(match[j]);
 
 	    // elimina l'array match
-	    delete [] match;  
+	    delete [] match;
 
 	    if (superBlockInstance)
 		newb = new SuperBlock(superBlockIdCounter++, id_name, superBlockName, inputRedirectTable, outputRedirectTable);
@@ -380,7 +380,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 		}
 	    }
 	    if (info.numParam >= 0 && rpm != info.numParam) // info.numParam >=0   <==>  i parametri sono in numero preciso
-	    {  
+	    {
 		oss << "In file '" << fileName << "': block constructor at instruction #" << current_instruction << " needs exactly " << info.numParam << " parameter(s)";
 		throw SyxError(oss.str());
 	    }
@@ -394,9 +394,9 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	    blockBuilderPointer = BlockBuilder::getInstance();
 	    // se stiamo analizzando una definizione di superblocco, allora assegniamo il prossimo ID di superblocco disponibile
 	    if (superBlockInstance)
-		newb = blockBuilderPointer->build(superBlockIdCounter++, id_name, micro_type, pBegin, current_instruction);        
+		newb = blockBuilderPointer->build(superBlockIdCounter++, id_name, micro_type, pBegin, current_instruction);
 	    else  // altrimenti per convenzione passiamo 0 (non significativo)
-		newb = blockBuilderPointer->build(0, id_name, micro_type, pBegin, current_instruction);        
+		newb = blockBuilderPointer->build(0, id_name, micro_type, pBegin, current_instruction);
 	}
 
 
@@ -433,16 +433,16 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 
     /* analizzatore del comando "connect" */
     else if ((*scanner)->isKeyword() && (*scanner)->getName() == "connect")
-    { 
+    {
 	string id_name_out, id_name_in;
 	Block* pb_out;
 	Block* pb_in;
 	int index_out = 0, index_in = 0;
 	/* lo zero di default è obbligatorio almeno per "index_out", per un corretto funzionamento
-	   di tutto il meccanismo; infatti nella i-esima posizione dell'array "src_out" in un 
+	   di tutto il meccanismo; infatti nella i-esima posizione dell'array "src_out" in un
 	   bloccho multi-input viene memorizzato l'indice dell'output del blocco sorgente a cui è
 	   collegato l'i-esimo ingresso del blocco multi-input
-	   */      
+	   */
 	map<string,BlockInfo>::iterator mit;
 	bool mi, mo;
 	scanner++;
@@ -595,7 +595,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	    result->internal = false;
 	    result->data.externalIO.in = false;
 	    result->data.externalIO.sbInd = sbOutputIndex;
-	}   
+	}
 	else if (!(*scanner)->isIdentifier())
 	{
 	    oss << "In file '" << fileName << "': expected identifier as second parameter of connect command at instruction #" << current_instruction;
@@ -644,7 +644,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 		scanner++;
 		/* cerca un numero intero positivo*/
 		if (scanner == end || !(*scanner)->isNumber() || !(static_cast<Number*>(*scanner))->isInteger() || (index_in = (static_cast<Integer*>(*scanner))->getValue()) < 0)
-		{ 
+		{
 		    cout<<(*scanner)->getName()<<(index_in = (static_cast<Integer*>(*scanner))->getValue());
 		    oss << "In file '" << fileName << "': at instruction #" << current_instruction << ": index must be a positive integer";
 		    throw SyxError(oss.str());
@@ -664,7 +664,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	{
 	    if ((*scanner)->getName() == "[")
 		oss << "In file '" << fileName << "': at instruction #" << current_instruction << ": Block '" << id_name_in << "' is single-input: you can't use '[ index ]' notation";
-	    else 
+	    else
 		oss << "In file '" << fileName << "': expected ')' at the end of connect command at instruction #" << current_instruction;
 	    throw SyxError(oss.str());
 	}
@@ -674,7 +674,7 @@ ConnectionInfo* Syntax::interpret(TKPTVCIT scanner, const TKPTVCIT& end)
 	    oss << "In file '" << fileName << "': expected ';' after ')' at instruction #" << current_instruction;
 	    throw SyxError(oss.str());
 	}
-	/* ora abbiamo estratto 'id_name_out', 'pb_out', 'index_out', 'id_name_in', 'pb_in' ed 'index_in' 
+	/* ora abbiamo estratto 'id_name_out', 'pb_out', 'index_out', 'id_name_in', 'pb_in' ed 'index_in'
 	   e dunque si può procedere con la connessione tra i due blocchi, a meno che non
 	   stiamo analizzando una connect che si trova all'interno di una definizione di superblocco,
 	   ed in tal caso non si deve creare la connessione; */

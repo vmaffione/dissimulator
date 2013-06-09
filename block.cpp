@@ -19,32 +19,32 @@ Block* BlockBuilder::build(int sbid, const string& id_name, const string& micro_
     else if (micro_type == "sum")
 	return new Sum(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "step")
-	return new Step(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction); 
+	return new Step(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "ramp")
-	return new Ramp(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);           
+	return new Ramp(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "impulse")
-	return new Impulse(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);  
+	return new Impulse(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "integrator")
-	return new Integrator(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction); 
+	return new Integrator(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "derivator")
-	return new Derivator(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction); 
+	return new Derivator(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "genericT")
-	return new genericT(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction); 
+	return new genericT(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "genericNT")
-	return new genericNT(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);             
+	return new genericNT(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "twins")
 	return new Twins(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
     else if (micro_type == "delay")
 	return new Delay(id_counter++, sbid, id_name, micro_type, pBegin, current_instruction);
-    else 
+    else
     {
 	oss << "You must add a row for type '" << micro_type << "' in the demultiplexing function BlockBuilder::build()";
 	throw BlockError(oss.str());
     }
 }
 
-Block::Block(const Block& model) 
-{ 
+Block::Block(const Block& model)
+{
     ID = BlockBuilder::id_counter++;
     name = ""; // non è significativo
     microType = model.microType;
@@ -58,7 +58,7 @@ bool Block::inoutCheckAndClear()
     return r1 && r2;
 }
 
-vector<Block*> Block::blockList; 
+vector<Block*> Block::blockList;
 
 void Block::freeTable()
 {
@@ -69,7 +69,7 @@ void Block::freeTable()
 }
 
 map<string, SuperBlock::SuperBlockElement*> SuperBlock::superBlocksTable;
-vector<Block*> SuperBlock::blockModelsList; 
+vector<Block*> SuperBlock::blockModelsList;
 
 void SuperBlock::freeTables()
 {
@@ -81,8 +81,8 @@ void SuperBlock::freeTables()
 	delete SuperBlock::blockModelsList[i];
 }
 
-Block* SuperBlock::clone(bool superBlockInstance) 
-{ 
+Block* SuperBlock::clone(bool superBlockInstance)
+{
     // ricerca la descrizione del proprio tipo nella tabella dei superblocchi
     map<string, SuperBlockElement*>::iterator mit = SuperBlock::superBlocksTable.find(getType());
     SuperBlockElement* sbep = mit->second;
@@ -90,7 +90,7 @@ Block* SuperBlock::clone(bool superBlockInstance)
 	sz = sbep->superBlockBlocks.size();
     Block** match = new Block*[ sz ];
     for (; j<sz; j++)
-	match[ j ] = sbep->superBlockBlocks[j]->clone(superBlockInstance);   
+	match[ j ] = sbep->superBlockBlocks[j]->clone(superBlockInstance);
 
     if (DEBUG)for (j=0; j<sz; j++) cout << "match["<< j << "] = " << match[j]->getID() << "\n";
 
@@ -102,7 +102,7 @@ Block* SuperBlock::clone(bool superBlockInstance)
 
     // a questo punto deve creare un nuovo blocco di tipo SuperBlock
     int irsz = sbep->inputSuperBlockMatchingTable.size(),
-	orsz = sbep->outputSuperBlockMatchingTable.size();        
+	orsz = sbep->outputSuperBlockMatchingTable.size();
     newb->inputRedirectTable.resize(irsz);
     newb->outputRedirectTable.resize(orsz);
     for (j=0; j<irsz; j++)
@@ -153,7 +153,7 @@ void SuperBlock::translateDestinationAddress(int dest_input_index, vector<Block*
 	    {
 		translatedDestinations.push_back(inputRedirectTable[j].blockPointer);
 		translatedDestInputIndexes.push_back(inputRedirectTable[j].sbBlockIndex);
-	    } 
+	    }
 	}
 }
 
@@ -225,10 +225,10 @@ bool MultiOutput::addOutput(Block* dest, int dest_input_index, int output_index,
 {
     if (yReg.size() == 0) // se ciò si verifica vuol dire che nel costruttore del blocco non è stata chiamata la funzione initOutputDimension()
     {
-	oss << "At instruction # " << instructionCounter << ": can't add output to block '" << name << "': use function initOutputDimension() to set output dimension of type " << microType << "'"; 
+	oss << "At instruction # " << instructionCounter << ": can't add output to block '" << name << "': use function initOutputDimension() to set output dimension of type " << microType << "'";
 	throw SyxError(oss.str());
     }
-    cout << "dest: " << dest->getName() << "; dest_input index " << dest_input_index << "; output index " << output_index << "\n"; 
+    cout << "dest: " << dest->getName() << "; dest_input index " << dest_input_index << "; output index " << output_index << "\n";
     if (output_index >= yReg.size())
     {
 	oss << "At instruction # " << instructionCounter << ": output dimension of block '" << name << "' is " << outputDimension() << ": you can't use index " << output_index;
@@ -250,7 +250,7 @@ Block* MultiOutput::getOutputPointer(int index) const
     }
 
 
-    return null;  
+    return null;
     //return out[index];
 }
 
@@ -300,14 +300,14 @@ bool MultiOutput::outCheckAndClear()
 {
     if (yReg.size() == 0)
     {
-	oss << "Output of block '" << name << "' is completely disconnected";          
+	oss << "Output of block '" << name << "' is completely disconnected";
 	throw SyxError(oss.str());
     }
     if (yReg.size() && !used.size()) throw SyxError("You can't call function outCheckAndClear() more than once");
     for (int j=0; j<yReg.size(); j++)
 	if (!used[j])
 	{
-	    oss << "Output #" << j << " of multi-output block '" << getType() << "' not assigned";          
+	    oss << "Output #" << j << " of multi-output block '" << getType() << "' not assigned";
 	    throw SyxError(oss.str());
 	}
     return true;
@@ -399,7 +399,7 @@ bool MultiInput::addInput(Block* src, int src_output_index, int input_index, int
 {
     if (in.size() == 0) // se ciò si verifica vuol dire che nel costruttore del blocco non è stata chiamata la funzione initInputDimension()
     {
-	oss << "At instruction # " << instructionCounter << ": can't add input to block '" << name << "': use function initInputDimension() to set input dimension of type '" << microType << "'"; 
+	oss << "At instruction # " << instructionCounter << ": can't add input to block '" << name << "': use function initInputDimension() to set input dimension of type '" << microType << "'";
 	throw SyxError(oss.str());
     }
     if (input_index >= in.size())
@@ -427,7 +427,7 @@ Block* MultiInput::getInputPointer(int index, int& src_index) const
 	return null;
     src_index = src_out[index];
     return in[index];
-} 
+}
 
 double MultiInput::getInputValue(int index) const
 {
@@ -436,7 +436,7 @@ double MultiInput::getInputValue(int index) const
 	oss << "Bad getInputValue request: out of range with block '" << name << "'";
 	throw BlockError(oss.str());
     }
-    return in[index]->getOutputValue(src_out[index]); 
+    return in[index]->getOutputValue(src_out[index]);
 }
 
 void MultiInput::initInputDimension(int inDim)
@@ -465,7 +465,7 @@ bool MultiInput::inCheckAndClear()
 {
     if (in.size() == 0)
     {
-	oss << "Input of block '" << name << "' is completely disconnected";          
+	oss << "Input of block '" << name << "' is completely disconnected";
 	throw SyxError(oss.str());
     }
     if (in.size() && !used.size()) throw SyxError("You can't call function inCheckAndClear() more than once");
@@ -503,13 +503,13 @@ bool create_connection(Block* src, int src_output_index, Block* dest, int dest_i
     if (dest->getRoleType() != SUPERBLOCK)
     {
 	src->addOutput(dest, dest_input_index, src_output_index, instructionCounter); // il controllo su src_output lo fa qui (serve anche per la addInput)
-	dest->addInput(src, src_output_index, dest_input_index, instructionCounter);  
+	dest->addInput(src, src_output_index, dest_input_index, instructionCounter);
     }
     /* altrimenti in generale esistono più indirizzi di blocchi destinatari che
        corrispondono ad una certa porta di ingresso del superblocco destinatario;
        è necessario simulare tutte le connessioni */
     else
-    {  
+    {
 	vector<Block*> translatedDestinations;
 	vector<int> translatedDestInputIndexes;
 	static_cast<SuperBlock*>(dest)->translateDestinationAddress(dest_input_index, translatedDestinations, translatedDestInputIndexes);
@@ -517,10 +517,10 @@ bool create_connection(Block* src, int src_output_index, Block* dest, int dest_i
 	for (int j=0; j<translatedDestinations.size(); j++)
 	{
 	    src->addOutput(translatedDestinations[j], translatedDestInputIndexes[j], src_output_index, instructionCounter); // il controllo su src_output lo fa qui (serve anche per la addInput)
-	    translatedDestinations[j]->addInput(src, src_output_index, translatedDestInputIndexes[j], instructionCounter);  
+	    translatedDestinations[j]->addInput(src, src_output_index, translatedDestInputIndexes[j], instructionCounter);
 	}
     }
-}  
+}
 
 
 // Libreria di blocchi standard
@@ -600,7 +600,7 @@ void Impulse::refresh()
 {
     if (Time::getTime() == time)
 	yReg = value;
-    else                
+    else
 	yReg = 0 ;
 }
 
@@ -612,7 +612,7 @@ Delay::Delay(int id, int sbid, string nm, string micro, TKPTVCIT pBegin, int ins
     storedValues = new double[ delayTime ];
 }
 
-void Delay::refresh() 
+void Delay::refresh()
 {
     yReg = storedValues[0];
     for (int i=0; i<delayTime-1; i++)
@@ -620,12 +620,12 @@ void Delay::refresh()
     storedValues[ delayTime - 1 ] = getInputValue(0) ;
 }
 
-void Integrator::refresh() 
+void Integrator::refresh()
 {
     yReg += getInputValue(0);
 }
 
-void Derivator::refresh() 
+void Derivator::refresh()
 {
     yReg = getInputValue(0) - memory;
     memory = getInputValue(0);
@@ -675,13 +675,13 @@ void SimpleScope::refresh()
 Sum::Sum(int id, int sbid, string nm, string micro, TKPTVCIT pBegin, int instructionCounter): Block(id, sbid, nm, micro)
 {
     while ((*pBegin)->getName() != ")")
-    {              
+    {
 	if ((*pBegin)->getName() == "+")
 	{  signs.push_back(1); pBegin++; }
-	else if ((*pBegin)->getName() == "-")        
-	{  signs.push_back(-1); pBegin++; }        
+	else if ((*pBegin)->getName() == "-")
+	{  signs.push_back(-1); pBegin++; }
 	else
-	    throw SyxError("Symbols + or - expected at instruction " + instructionCounter);    
+	    throw SyxError("Symbols + or - expected at instruction " + instructionCounter);
     }
     initInputDimension(signs.size());
 }
@@ -690,7 +690,7 @@ void Sum::refresh()
 {
     yReg = 0;
     for (int i=0; i<inputDimension(); i++)
-	yReg += signs[i] * getInputValue(i);  
+	yReg += signs[i] * getInputValue(i);
 }
 
 genericT::genericT(int id, int sbid, string nm, string micro, TKPTVCIT pBegin, int instructionCounter): Block(id, sbid, nm, micro)
@@ -718,7 +718,7 @@ genericT::genericT(int id, int sbid, string nm, string micro, TKPTVCIT pBegin, i
 
 void genericT::refresh()
 {
-    yReg = C * state + D * getInputValue(0);                        
+    yReg = C * state + D * getInputValue(0);
     state = A * state + B * getInputValue(0);
 }
 
@@ -743,7 +743,7 @@ genericNT::genericNT(int id, int sbid, string nm, string micro, TKPTVCIT pBegin,
 
 void genericNT::refresh()
 {
-    yReg = C * state ;                        
+    yReg = C * state ;
     state = A * state + B * getInputValue(0);
 }
 

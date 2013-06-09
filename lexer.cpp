@@ -8,7 +8,7 @@ Lexer Lexer::instance; // richiama il costruttore dell'oggetto Singleton (indipe
 /* il costruttore di Lexer apre il file di configurazione della grammatica,
    carica la grammatica in memoria e poi apre il file di input del programma */
 Lexer::Lexer()
-{ 
+{
     try
     {
 	//cout << "Creato Singleton Lexer!\n";
@@ -17,7 +17,7 @@ Lexer::Lexer()
 	if (!grammar) throw LexError("Can't find 'characters.conf' file");
 	int i = 0, sz;
 	for (; i<NUM_CHARS; i++)
-	    characters[i] = false;   
+	    characters[i] = false;
 	string wstr0;
 	getline(grammar, wstr0); // legge la prima linea che contiene i caratteri ammessi
 	sz = wstr0.size();
@@ -35,7 +35,7 @@ Lexer::Lexer()
 	if (!grammar) throw LexError("Can't find 'basic_keywords.conf' file");
 	int line_counter = 0;
 	string wstr1;
-	for(;;) 
+	for(;;)
 	{
 	    getline(grammar, wstr0);
 	    line_counter++;
@@ -72,7 +72,7 @@ Lexer::Lexer()
 	grammar.open("standard_blocks.txt");
 	if (!grammar) throw LexError("Can't find 'standard_blocks.conf' file");
 	line_counter = 0;
-	for(;;) 
+	for(;;)
 	{
 	    getline(grammar, wstr0);
 	    line_counter++;
@@ -102,10 +102,10 @@ Lexer::Lexer()
 	sort(standardBlocks.begin(), standardBlocks.end());
 	grammar.close();
 	grammar.clear();
-	if (DEBUG) { cout << "Blocchi standard:  "; for (i = 0; i<standardBlocks.size(); i++) cout << standardBlocks[i] << " "; cout << "\n"; }         
+	if (DEBUG) { cout << "Blocchi standard:  "; for (i = 0; i<standardBlocks.size(); i++) cout << standardBlocks[i] << " "; cout << "\n"; }
     }
-    catch (const GenericError&) 
-    { 
+    catch (const GenericError&)
+    {
 	exit(0);
     }
 }
@@ -114,7 +114,7 @@ bool Lexer::setInputFile(string fn)
 {
     fileName = fn;
     inputFile.open(fileName.c_str()); // apre il file di ingresso dei dati dell'utente
-    if (!inputFile) 
+    if (!inputFile)
     {
 	oss << "Can't find file '" << fileName << "'";
 	throw LexError(oss.str());
@@ -126,7 +126,7 @@ Token* Lexer::getToken()
 {
     if (fileName == "")
 	throw LexError("Lexer need a file to extract tokens");
-    if (inputFile.eof()) // prima di chiudere effettua le operazioni di pulizia 
+    if (inputFile.eof()) // prima di chiudere effettua le operazioni di pulizia
     {
 	inputFile.close();
 	inputFile.clear();
@@ -145,7 +145,7 @@ Token* Lexer::getToken()
 	return null;
     }
 
-    // se il primo carattere letto (diverso dallo spazio) non è compatibile con un identificatore, un numero oppure una keyword...  
+    // se il primo carattere letto (diverso dallo spazio) non è compatibile con un identificatore, un numero oppure una keyword...
     if (!isalpha(c) && !isdigit(c) && c != '_')
 	if (characters[c])
 	    return new Separator(c);
@@ -169,7 +169,7 @@ Token* Lexer::getToken()
 		    break;
 		isDouble = true;
 	    }
-	    wstr.push_back(c);        
+	    wstr.push_back(c);
 	    c = inputFile.get();
 	}
 	/* se ha letto il primo carattere del prossimo token (dopo l'ultima cifra)

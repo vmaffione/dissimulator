@@ -16,12 +16,12 @@ Symbol* Symbol::getInstance()
    già un elemento con la stessa chiave.
    */
 bool Symbol::insertData(string key, Block* bp)
-{ 
+{
     pair< map<string,Block*>::iterator, bool> p = table.insert(make_pair(key, bp));
     return p.second;
 }
 
-/* cerca la riga nella tabella corrispondente ad una determinata chiave; se la 
+/* cerca la riga nella tabella corrispondente ad una determinata chiave; se la
    trova restituisce il puntatore al blocco (cioè il contenuto della tabella),
    altrimenti restituisce il valore nullo; */
 Block* Symbol::findData(const string& key)
@@ -34,12 +34,12 @@ Block* Symbol::findData(const string& key)
 
 /* elimina una riga della tabella, preoccupandosi anche di liberare la memoria
    ai blocchi puntati */
-bool Symbol::eraseData(const string& key) 
+bool Symbol::eraseData(const string& key)
 {
     map<string,Block*>::iterator mit = table.find(key); // questa ricerca va a colpo sicuro
     delete mit->second;
     table.erase(mit);
-    return true; 
+    return true;
 }
 
 bool Symbol::getBlocks()
@@ -48,7 +48,7 @@ bool Symbol::getBlocks()
     for (; mit!=table.end(); mit++)
 	/* i blocchi che sono modello di superblocco e i superblocchi con identificatore non devono essere messi nella lista dei
 	   blocchi da processare, bensì nell'altra lista */
-	if (mit->second->getRoleType() != SUPERBLOCK && mit->second->getName().substr(0,1) != "6") 
+	if (mit->second->getRoleType() != SUPERBLOCK && mit->second->getName().substr(0,1) != "6")
 	    Block::blockList.push_back(mit->second);
 	else
 	    SuperBlock::insertModel(mit->second);
