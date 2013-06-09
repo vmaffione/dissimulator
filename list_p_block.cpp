@@ -1,8 +1,8 @@
 #include "list_p_block.h"
 
-Node* listPBlock::push_back( Block* pb )
+Node* listPBlock::push_back(Block* pb)
 {
-    if ( head == null ) // lista vuota
+    if (head == null) // lista vuota
     {
 	head = tail = new Node;
 	tail->blockPointer = pb;
@@ -20,15 +20,15 @@ Node* listPBlock::push_back( Block* pb )
     return tail;
 }
 
-void listPBlock::erase( Node* npt )
+void listPBlock::erase(Node* npt)
 {
-    if ( npt == null )
+    if (npt == null)
 	return;
-    if ( npt->prev == null )
+    if (npt->prev == null)
 	head = npt->next;
     else
 	npt->prev->next = npt->next;
-    if ( npt->next == null )
+    if (npt->next == null)
 	tail = npt->prev;
     else
 	npt->next->prev = npt->prev;
@@ -45,20 +45,20 @@ void listPBlock::pop_front()
 
 listPBlock::~listPBlock()
 {
-    bool empty = ( head == null );
-    while ( head != null )
+    bool empty = (head == null);
+    while (head != null)
     {
 	cout << head->blockPointer->getName() << " ";
 	tail = head; // si utilizza tail come variabile di lavoro, tanto non serve più
 	head = head->next;
 	delete tail;
     }
-    if ( !empty ) cout << "Distruggo lista!\n";
+    if (!empty) cout << "Distruggo lista!\n";
 }
 
 void listPBlock::print() const
 {
-    for( Node* w=head; w!=null; w=w->next )
+    for(Node* w=head; w!=null; w=w->next)
 	cout << w->blockPointer->getName() << " ";
     cout << "\n";
 }
