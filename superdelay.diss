@@ -1,0 +1,3 @@
+d = minidelay();
+connect(input[0],d.input[0]);
+connect(d.output[0],output[0]);

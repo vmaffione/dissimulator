@@ -1,0 +1,19 @@
+m1 = moving_average( 4 );
+m2 = moving_average( 8 );
+m3 = moving_average( 12 );
+sum1 = sum( +,+ );
+connect(input[0],m1.input);
+connect(input[1],m2.input);
+connect(m1.output,sum1.input[0]);
+connect(m2.output,sum1.input[1]);
+connect(sum1.output,m3.input);
+
+d1=superdelay();
+connect(m3.output,d1.input[0]);
+d2=superdelay();
+connect( d1.output[0],d2.input[0]);
+connect( d2.output[0],output[0]);
+
+
+
+

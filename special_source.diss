@@ -1,0 +1,6 @@
+s0 = ramp(1.0,2);
+s1=ramp(1.0,0);
+summer = sum(+,+);
+connect(s0.output,summer.input[0]);
+connect(s1.output,summer.input[1]);
+connect(summer.output,output[0]);

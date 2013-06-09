@@ -1,0 +1,8 @@
+derivatore = derivator();
+integratore= integrator();
+sommatore = sum( +, + );
+connect( input[0], derivatore.input );
+connect( input[0], integratore.input);
+connect( derivatore.output, sommatore.input[0] );
+connect( integratore.output, sommatore.input[1] );
+connect( sommatore.output, output[0] );

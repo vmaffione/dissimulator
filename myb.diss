@@ -1,0 +1,2 @@
+t = myb2();
+connect(t.output[0],output[0]);

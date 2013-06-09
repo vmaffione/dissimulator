@@ -1,0 +1,4 @@
+sr = ramp(1,0);
+sk = simple_scope(outfile);
+connect( sr.output, sk.input );
+connect( sr.output, output[0]);

@@ -1,0 +1,3 @@
+d = delay(2);
+connect(input[0], d.input);
+connect(d.output,output[0]);

@@ -1,0 +1,8 @@
+deriv0 = derivator();
+deriv1 = derivator();
+sum0 = sum( +, + );
+connect( input[0], deriv0.input );
+connect( input[1], deriv1.input );
+connect( deriv0.output, sum0.input[0]);
+connect( deriv1.output, sum0.input[1]);
+connect( sum0.output, output[0] );
